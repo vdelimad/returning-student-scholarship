@@ -83,6 +83,21 @@ IFrame(src='Outputs/folium_job_counts.html', width=width_percentage, height=500)
 Click on a colorized cluster in the map to expand that region.
 :::
 
+* @fig-folium-job-counts does not include jobs with multiple locations or remote.
+
+
+
+```{python}
+#| echo: false
+#| label: fig-jobs-table
+#| fig-cap: Shows.
+
+width_percentage = "100%"
+IFrame(src='Outputs/jobs_table.html', width=width_percentage, height=500)
+```
+
+
+
 ### Problem Formulation
 
 
