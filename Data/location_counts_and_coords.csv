@@ -1,0 +1,150 @@
+location,count,latitude,longitude
+"New York, New York",44,40.7127281,-74.0060152
+"Washington, District of Columbia",44,38.8950368,-77.0365427
+"San Francisco, California",28,37.7790262,-122.419906
+"Annapolis Junction, Maryland",21,39.125459649999996,-76.795323688298
+"Arlington, Virginia",19,38.8769326,-77.0893094
+"Chicago, Illinois",15,41.8755616,-87.6244212
+"Herndon, Virginia",14,38.9695316,-77.3859479
+"Seattle, Washington",14,47.6038321,-122.330062
+"Bethesda, Maryland",12,38.98127255,-77.12335871396549
+"Palo Alto, California",12,37.4443293,-122.1598465
+"Cupertino, California",11,37.3228934,-122.0322895
+"San Jose, California",10,37.3361663,-121.890591
+"Annapolis, Maryland",10,38.9786401,-76.492786
+"McLean, Virginia",9,38.9318369,-77.1671337963356
+"Los Angeles, California",9,34.0536909,-118.242766
+"South San Francisco, California",9,37.6535403,-122.4168664
+"Menlo Park, California",9,37.4519671,-122.177992
+"Alexandria, Virginia",8,38.8051095,-77.0470229
+"Fort Meade, Maryland",8,39.103197949999995,-76.74651732045955
+"Silver Spring, Maryland",8,38.9997621,-77.02403709829767
+"Boston, Massachusetts",7,42.3554334,-71.060511
+"Baltimore, Maryland",7,39.2908816,-76.610759
+"Reston, Virginia",7,38.955696,-77.34188283719988
+"Dallas, Texas",6,32.7762719,-96.7968559
+"Bentonville, Arkansas",6,36.3728538,-94.2088172
+"Atlanta, Georgia",6,33.7489924,-84.3902644
+"Oak Ridge, Tennessee",6,36.0103562,-84.2696449
+"Fairfax, Virginia",6,38.8462236,-77.3063733
+"Sunnyvale, California",5,37.3688301,-122.036349
+"Laurel, Maryland",5,39.1044123,-76.8669233
+"Santa Clara, California",5,37.2333253,-121.6846349
+"Oklahoma City, Oklahoma",5,35.4729886,-97.5170536
+"Catonsville, Maryland",5,39.26099215,-76.74554777654639
+"Irving, Texas",5,32.8295183,-96.9442177
+"Livermore, California",5,37.6820583,-121.768053
+"Somerville, Massachusetts",4,42.3875968,-71.0994968
+"Mountain View, California",3,37.3893889,-122.0832101
+"Austin, Texas",3,30.2711286,-97.7436995
+"Madison, Wisconsin",3,43.074761,-89.3837613
+"Cambridge, Massachusetts",3,42.3750997,-71.1056157
+"Phoenix, Arizona",3,33.4484367,-112.074141
+"Boulder, Colorado",3,40.0149856,-105.270545
+"Kirkland, Washington",3,47.6765382,-122.2070775
+"Littleton, Colorado",3,39.613321,-105.016649
+"Redmond, Washington",3,47.6694141,-122.1238767
+"San Mateo, California",3,37.496904,-122.3330573
+"Chevy Chase, Maryland",3,38.9813699,-77.0849245
+"Hanover, Maryland",3,39.1928853,-76.7241371
+"Salt Lake City, Utah",3,40.7596198,-111.886797
+"Columbia, Maryland",3,39.1938429,-76.86460919353361
+"San Diego, California",3,32.7174202,-117.1627728
+"Columbus, Ohio",2,39.9622601,-83.0007065
+"Durham, North Carolina",2,35.996653,-78.9018053
+"Sacramento, California",2,38.5810606,-121.493895
+"Rockville, Maryland",2,39.0817985,-77.1516844
+"Takoma Park, Maryland",2,38.9778882,-77.0074765
+"Beltsville, Maryland",2,39.039773499999995,-76.92718505662606
+"Topeka, Kansas",2,39.049011,-95.677556
+"Bethune, South Carolina",2,34.4147965,-80.3486166
+"Fremont, California",2,37.5482697,-121.988571
+"Edison, New Jersey",2,40.518157,-74.4113926
+"Wilmington, Delaware",2,39.7459468,-75.546589
+"Moline, Illinois",2,41.5058344,-90.5136642
+"Manassas, Virginia",2,38.7509488,-77.4752667
+"Springfield, Virginia",2,38.7767435,-77.1807019310668
+"Ruston, Louisiana",2,32.5232053,-92.637927
+"Culver City, California",2,34.0211224,-118.396466
+"Honolulu, Hawaii",2,21.304547,-157.855676
+"Covington, Kentucky",2,39.0836224,-84.508371
+"Chantilly, Virginia",2,38.8788355,-77.40221718011088
+"Mesquite, Texas",2,32.7666103,-96.599472
+"Montreal, Missouri",2,37.9689254,-92.5921247
+"Colorado Springs, Colorado",2,38.8339578,-104.825348
+"Beatrice, Nebraska",2,40.266429,-96.747369
+"Suffolk, Virginia",2,36.7282096,-76.5835703
+"Olathe, Kansas",2,38.8838856,-94.81887
+"Milpitas, California",2,37.4332273,-121.8989248
+"Miami, Florida",2,25.7741728,-80.19362
+"West Columbia, South Carolina",2,33.9934867,-81.0739826
+"Waltham, Massachusetts",2,42.3756401,-71.2358004
+"Lexington, Massachusetts",2,42.4473175,-71.2245003
+"Plano, Texas",2,33.0136764,-96.6925096
+"Schererville, Indiana",2,41.4789246,-87.4547605
+"Redwood City, California",2,37.4863239,-122.232523
+"Teaneck, New Jersey",2,40.8860164,-74.0072568
+"St Paul, Minnesota",2,44.9497487,-93.0931028
+"Milwaukee, Wisconsin",1,43.0349931,-87.922497
+"North Reading, Massachusetts",1,42.5750939,-71.0786653
+"Brooklyn, New York",1,40.6526006,-73.9497211
+"Rogers, Arkansas",1,36.3320197,-94.1185366
+"Roxton, Texas",1,33.5462168,-95.7257949
+"Jefferson City, Missouri",1,38.577359,-92.1724265
+"Emeryville, California",1,37.8314089,-122.2865266
+"Grand Rapids, Michigan",1,42.9632405,-85.6678639
+"Bowie, Maryland",1,38.9424464,-76.7301718
+"Crownsville, Maryland",1,39.0197327,-76.59026765175719
+"Minneapolis, Minnesota",1,44.9772995,-93.2654692
+"Germantown, Maryland",1,39.17130815,-77.26557848822242
+"Cincinnati, Ohio",1,39.1014537,-84.5124602
+"College Park, Maryland",1,38.980666,-76.9369189
+"Marlborough, Massachusetts",1,42.3459271,-71.5522874
+"Falls Church, Virginia",1,38.882334,-77.1710914
+"Pittsburgh, Pennsylvania",1,40.4416941,-79.9900861
+"Madrid, Alabama",1,31.035862,-85.39815287941555
+"Dayton, Ohio",1,39.7589478,-84.1916069
+"Newton, Massachusetts",1,42.3370414,-71.2092214
+"Wheaton-Glenmont, Maryland",1,39.04979325,-77.05228508396917
+"Fort Belvoir, Virginia",1,38.72821225,-77.15098291295884
+"Vienna, Virginia",1,38.9013729,-77.2651762
+"Sterling, Virginia",1,39.003809849999996,-77.40832792370676
+"Mechanicsburg, Pennsylvania",1,40.2101972,-77.0047276
+"Bridgeport, West Virginia",1,39.2864787,-80.2561981
+"Weehawken, New Jersey",1,40.7695457,-74.0204177
+"Los Gatos, California",1,37.226611,-121.9746797
+"White Plains, New York",1,41.0339862,-73.7629097
+"Illinois City, Illinois",1,41.3975305,-90.8995898
+"Arden Hills, Minnesota",1,45.0761409,-93.1666945
+"Trenton, New Jersey",1,40.2205944,-74.7597219
+"Houston, Texas",1,29.7589382,-95.3676974
+"Cary, North Carolina",1,35.7882893,-78.7812081
+"Deerfield, Illinois",1,42.1711365,-87.8445119
+"Evanston, Illinois",1,42.0447388,-87.6930459
+"Southborough, Massachusetts",1,42.3056501,-71.5245087
+"North Chicago, Illinois",1,42.325578,-87.8411818
+"Clayton, Indiana",1,39.6892129,-86.5224984
+"Champaign, Illinois",1,40.1164841,-88.2430932
+"Westborough, Massachusetts",1,42.2694308,-71.6129907
+"Lenexa, Kansas",1,38.9697458,-94.7845837
+"Pasadena, California",1,34.1476452,-118.1444779
+"Boerne, Texas",1,29.7946641,-98.7319703
+"Eagan, Minnesota",1,44.818173,-93.1659179
+"Huntsville, Alabama",1,34.729847,-86.5859011
+"Bolinas, California",1,37.9093702,-122.6863733
+"Lincolnshire, Illinois",1,42.1900249,-87.9084039
+"Kansas City, Missouri",1,39.100105,-94.5781416
+"Edmond, Oklahoma",1,35.6571367,-97.4649038
+"Woburn, Massachusetts",1,42.4792618,-71.1522766
+"Dearing, Kansas",1,37.0586882,-95.713312
+"Las Vegas, Nevada",1,36.1672559,-115.148516
+"Sausalito, California",1,37.8590272,-122.485469
+"Ann Arbor, Michigan",1,42.2681569,-83.7312291
+"Princeton, New Jersey",1,40.3492744,-74.6592958
+"Pleasanton, California",1,37.6624312,-121.8746789
+"Charlotte, North Carolina",1,35.2272086,-80.8430827
+"Irvine, California",1,33.6856969,-117.8259819
+"Berkeley, California",1,37.8708393,-122.272863
+"Natick, Massachusetts",1,42.2836393,-71.346996
+"Arlington, Texas",1,32.7355816,-97.1071186
+"Los Altos, California",1,37.3790629,-122.116578
