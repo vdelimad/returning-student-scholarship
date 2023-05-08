@@ -5,6 +5,7 @@
 import streamlit as st
 import pandas as pd
 import nltk
+nltk.download('wordnet')
 from nltk.corpus import stopwords
 from collections import Counter
 import re
