@@ -2,7 +2,6 @@
 # import libraries
 ################################################
 
-
 import streamlit as st
 import pandas as pd
 import nltk
@@ -21,6 +20,7 @@ import plotly.graph_objects as go
 from sklearn.cluster import AgglomerativeClustering
 import streamlit.components.v1 as stc
 from wordcloud import WordCloud
+
 
 
 ################################################
@@ -162,7 +162,7 @@ def generate_tag_cloud_html(words):
 # missing words functions
 def check_missing_words(input_text, word_list):
     missing_words = []
-    input_words = set(input_text.lower().split())
+    input_words = set(re.findall(r'\b\w+\b', input_text.lower())) # to make sure commas don't break the comparison
 
     # store words that are not present
     for word in word_list:
@@ -203,8 +203,8 @@ def introduction_page():
         st.write("")
 
     with col2:
-        image = Image.open('Code/Streamlit/Images/pexels-anna-tarazevich-5598295.jpg')
-        st.image(image, caption='Photo credit: Tarazevich (2020)', width=600)
+        image = Image.open('Code/Streamlit/Images/pexels-markus-winkler-4101343.jpg')
+        st.image(image, caption='Photo credit: Winkle (2020)', width=600)
 
     with col3:
         st.write("")
@@ -289,19 +289,22 @@ def finding_companies_page():
 
     # begin folium plot
     ######################################################################
-
+    
     # remove missing rows
     location_counts = jobs_results.dropna(subset=['latitude', 'longitude'])
 
     # init
     folium_plot = folium.Map(location=[39.8283, -98.5795], zoom_start=4)
+    
+    
 
     # add marker to each location
     folium_marker_cluster = MarkerCluster().add_to(folium_plot)
     for idx, row in location_counts.iterrows():
         folium.Marker(
             [row['latitude'], row['longitude']], 
-            tooltip=row['location']
+            tooltip=row['location'],
+            icon=folium.Icon(color='#67001E')
         ).add_to(folium_marker_cluster)
 
     folium_col1, folium_col2, folium_col3 = st.columns([1, 6, 1])
@@ -312,7 +315,7 @@ def finding_companies_page():
     with folium_col2:
         st.markdown('#### Map of Job Locations Density')
         folium_static(folium_plot)
-        st.caption('Figure 1: ')
+        st.caption('Figure 1: Folium plot showing the density of database jobs in each city, initially aggregated by state.')
 
 
     with folium_col3:
@@ -365,7 +368,7 @@ def finding_companies_page():
     # display the dataframe as a table without row numbers (index)
     st.dataframe(df.reset_index(drop=True), use_container_width=True)
 
-    st.caption('Table 1: ')
+    st.caption('Table 1: Table displaying the jobs in the database, with a dropdown to select by state and columns that can be sorted ascending and descending by clicking.')
 
 
     # callout
@@ -397,7 +400,7 @@ def finding_companies_page():
     # generate wordcloud
     top_words = dict(sorted(word_freq.items(), key=lambda x: x[1], reverse=True)[:50])
     
-    word_cloud_ob = WordCloud(background_color='white', max_words=50, width=800, height=400).generate_from_frequencies(top_words)
+    word_cloud_ob = WordCloud(background_color='white', max_words=50, width=800, height=400, colormap='RdGy').generate_from_frequencies(top_words)
 
 
     # show
@@ -409,7 +412,7 @@ def finding_companies_page():
     with folim_col2:
         st.markdown('#### Job Benefits Text Word Cloud')
         st.image(word_cloud_ob.to_array(), use_column_width=True)
-        st.caption('Figure 2: ')
+        st.caption('Figure 2: Word Cloud showing the highest frequency words in the benefits column of the database after text preprocessing.')
 
 
     with folim_col3:
@@ -511,7 +514,7 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
         fig.add_trace(go.Scatter(x=[x0, x1], y=[y0, y1], mode='lines', line=dict(width=1, color='gray'), showlegend=False, hoverinfo='none'))
 
     # add scatterplot trace
-    fig.add_trace(go.Scatter(x=x_coords, y=y_coords, mode='markers', marker=dict(size=20, color=cluster_labels, colorscale='Viridis', showscale=False), text=[f"{data['label']}<br>{data['company']}" for i, data in G.nodes(data=True)], hoverinfo='text', showlegend=False))
+    fig.add_trace(go.Scatter(x=x_coords, y=y_coords, mode='markers', marker=dict(size=20, color=cluster_labels, colorscale='RdGy', showscale=False), text=[f"{data['label']}<br>{data['company']}" for i, data in G.nodes(data=True)], hoverinfo='text', showlegend=False))
 
     # update layour
     fig.update_layout(
@@ -531,7 +534,7 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
     with network_viz_col2:
         st.markdown('#### Similarities in Job Responsibilities Detail')
         st.plotly_chart(fig)
-        st.caption('Figure 3: ')
+        st.caption('Figure 3: Graph of 50 randomly selected jobs related by the similarity of their responsibility description, colored by Agglomerative Clustering.')
 
 
     with network_viz_col3:
@@ -588,10 +591,11 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
     # show
     tag_cloud_html = generate_tag_cloud_html(word_freq)
     st.markdown(tag_cloud_html, unsafe_allow_html=True)
-    st.caption('Figure 4: ')
+    st.caption('Figure 4: Tag Cloud showing the 50 most used words, after text preprocessing, in the qualifications field of the database for a selected category.')
 
 
     st.markdown("Figure 4 shows several popular requirements for all categories, such as Python, C, and algorithms. Conversely, we can also see specialist skills such as TensorFlow and PyTorch in the Machine Learning category and Smart Contracts and Ethereum in the Blockchain category.")
+
 
     st.markdown("Next, to assist the reader, we offer the tool below in which a resume can be provided, and it will check if the keywords as per the selected category are present. To use the tool, a user can simply paste the resume into the textbox and click the `Check Missing Keywords` button.")
 
@@ -625,6 +629,14 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
         # if no text in input
         else:
             st.markdown("<p style='color: grey;'>Please enter resume text.</p>", unsafe_allow_html=True)
+            
+            
+    st.markdown(
+        """
+        <div class="bd-callout bd-callout-info">
+             <p>Don't have a resume and want to try the tool? Try the following text: <mark>I am proficient in data, analysis, and statistics</mark>. Add or remove words as needed to compare with the Tag Cloud.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
 
 
@@ -656,6 +668,26 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
 def conclusions_page():
 
     st.markdown("## Conclusions")
+
+    st.markdown("In this project, we began by motivating the importance of being selective about which companies to apply to and getting a resume that stands out, particularly for resume ranking software. Then, we discussed the literature, covering the importance of having clear goals before beginning the application process, maintaining a manageable workload, and keeping track of successes. We also discussed the six steps for the job search process and motivated focusing on company search resume polishing (steps two and three). Next, we presented several visualizations and tools using our data set to evaluate companies, including their location and common benefits offered to Data Science applicants. Lastly, we covered why having a resume that stands out, and we visualized the most important keywords for each Data Science job category is essential. Finally, we concluded by offering a tool for comparing the common keywords against a resume.")
+    
+    st.markdown("Future versions of this project could include targeting additional aspects of the hiring process of the job search process discussed in the literature. Similarly, the data set could be expanded to contain significantly more jobs, allowing for richer statistics. Also, alternative methods other than cosine similarity could be attempted when comparing jobs. Lastly, the keyword check tool could be expanded to allow for inputting a job description and estimating how likely it is to get a high score in resume ranking software.")
+    
+    st.markdown("Thank you for reading and best of luck with your job search!")
+    
+    
+    col1, col2, col3 = st.columns([1,6,1])
+
+    with col1:
+        st.write("")
+
+    with col2:
+        image = Image.open('Code/Streamlit/Images/pexels-pixabay-327540.jpg')
+        st.image(image, caption='Photo credit: Pexels (2017)', width=600)
+
+    with col3:
+        st.write("")
+
 
 
     # page transitions
@@ -698,7 +730,7 @@ def references_page():
 
 
 # init streamlit
-st.set_page_config(page_title="The Data Science Job Search Survival Guide", layout="wide")
+st.set_page_config(page_title="The Data Science Job Search Survival Guide", layout="wide", page_icon = 'Code/Streamlit/Images/handshake.png')
 button_clicked = False
 
 # init default page

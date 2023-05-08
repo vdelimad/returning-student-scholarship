@@ -3,10 +3,31 @@
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
 }
+
+
+/* sidebar */
 .css-1vq4p4l {
     padding-top: 2rem !important;
 }
 
+.css-6qob1r {
+    background-color: #67001E !important;
+    background-image: none;
+
+}
+
+.css-629wbf {
+    background-color: white !important;
+}
+
+.css-1629p8f h3 {
+    color: white !important;
+
+}
+.css-1xtoq5p {
+    color: white !important;
+
+}
 
 /* bootstrap callouts  https://bootsnipp.com/snippets/yNK5E */
 .bd-callout {
