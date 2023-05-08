@@ -39,12 +39,13 @@ jobs_results['state'] = jobs_results['state'].apply(lambda x: x.split('(')[0].st
 ################################################
 
 # custom list of phrases
-compound_phrases = ['data science', 'machine learning', 'artificial intelligence', 'neural network', 'deep learning', 'software engineering', 'computer science', 'team work', 'computer_vision', 'neural networks', 'reinforcement learning', 'web development', 'data tools', 'statistical analysis', 'written communication', 'data modelling', 'data modeling', 'time series', 'natural language processing', 'big data', 'data analyst', 'cloud computing', 'natural language', 'scikit learn', 'text data', 'information system', 'information systems', 'smart contract', 'verbal communication', 'problem solving', 'hands on', 'hand on', 'detail oriented', 'fast paced', 'web design', 'project management', 'front end', 'back end', 'ph d', 'natural language understanding', 'programming language', 'programming languages', 'consensus protocols', 'business solutions', 'distributed system', 'distributed systems', 'software development', 'web application', 'web applications', 'business intelligence', 'deep understanding', 'life insurance', 'base salary', 'base pay', 'tuition assistance', 'parental leave', 'paid leave', 'paid vacation', 'sick leave', 'benefits package', 'paid time off', 'stock options', 'paid vacation', 'paid holidays', 'health insurance', 'retirement benefits', 'salary benefits', 'disability insurance', 'competitive benefits', 'competitive salary', 'annual bonus','work life balance']
+custom_list_of_phrases = ['data science', 'machine learning', 'artificial intelligence', 'neural network', 'deep learning', 'software engineering', 'computer science', 'team work', 'computer_vision', 'neural networks', 'reinforcement learning', 'web development', 'data tools', 'statistical analysis', 'written communication', 'data modelling', 'data modeling', 'time series', 'natural language processing', 'big data', 'data analyst', 'cloud computing', 'natural language', 'scikit learn', 'text data', 'information system', 'information systems', 'smart contract', 'verbal communication', 'problem solving', 'hands on', 'hand on', 'detail oriented', 'fast paced', 'web design', 'project management', 'front end', 'back end', 'ph d', 'natural language understanding', 'programming language', 'programming languages', 'consensus protocols', 'business solutions', 'distributed system', 'distributed systems', 'software development', 'web application', 'web applications', 'business intelligence', 'deep understanding', 'life insurance', 'base salary', 'base pay', 'tuition assistance', 'parental leave', 'paid leave', 'paid vacation', 'sick leave', 'benefits package', 'paid time off', 'stock options', 'paid vacation', 'paid holidays', 'health insurance', 'retirement benefits', 'salary benefits', 'disability insurance', 'competitive benefits', 'competitive salary', 'annual bonus','work life balance']
 
-# Custom list of stopwords
-custom_stopwords = ['experience', 'qualifications', 'ability', 'based', 'well', 'also', 'help', 'requirements', 'including', 'skills', 'related', 'required', 'field', 'using', 'knowledge', 'strong', 'etc', 'proficiency', 'e', 'excellent', 'relevant', 'g', 'least', 'years', 'must', 'work', 'demonstrated', 'one', 'two', 'similar', 'able', 'proven', 'working', 'team', 'developing', 'candidate', 'background', 'equivalent', 'applying', 'effectively', 'may', 'min', 'minimum', 'range', 'comprehensive', 'salary', 'eligible', 'k', 'role', 'include', 'per', 'position', 'company', 'long', 'us','use', 'employees']
+# custom list of stopwords
+custom_list_of_stopwords = ['experience', 'qualifications', 'ability', 'based', 'well', 'also', 'help', 'requirements', 'including', 'skills', 'related', 'required', 'field', 'using', 'knowledge', 'strong', 'etc', 'proficiency', 'e', 'excellent', 'relevant', 'g', 'least', 'years', 'must', 'work', 'demonstrated', 'one', 'two', 'similar', 'able', 'proven', 'working', 'team', 'developing', 'candidate', 'background', 'equivalent', 'applying', 'effectively', 'may', 'min', 'minimum', 'range', 'comprehensive', 'salary', 'eligible', 'k', 'role', 'include', 'per', 'position', 'company', 'long', 'us','use', 'employees']
 
-equivalent_phrases = {
+# custom list of equivalent phrases
+custom_list_of_equivalent_phrases = {
     'machine_learning': ['ml', 'machine learning'],
     'artificial_intelligence': ['ai', 'artificial_intelligence'],
     'natural_language_processing': ['nlp', 'natural language processing'],
@@ -60,13 +61,6 @@ equivalent_phrases = {
 # helper functions
 ################################################
 
-
-# helper to render html
-#def render_html(filepath):
-#    with open(filepath, 'r') as f:
-#        html = f.read()
-#    stc.iframe(html, width=700, height=500)
-
 # tag cloud functions
 def replace_compound_phrases(text, phrases):
     for phrase in phrases:
@@ -76,42 +70,50 @@ def replace_compound_phrases(text, phrases):
     return text
 
 def preprocess_text(text, compound_phrases, custom_stopwords, equivalent_phrases):
-    if text is None or isinstance(text, float):  # check if input is None or a float
+    
+    if text is None or isinstance(text, float):  # check empty of float
         return []
 
-    # Convert to string and remove leading/trailing white space
+    # remove white space
     text = str(text).strip()
 
     # fix smart contracts
     text = re.sub(r'\bsmart contracts?\b', 'smart_contract', text, flags=re.IGNORECASE)
 
-    # Remove special characters and digits
+    # remove digits / special characters
     text = re.sub(r'\W|\d', ' ', text)
 
-    # Convert to lowercase
+    # change to lowercase
     text = text.lower()
 
-    # Tokenize the text
+    # tokenize with nltk
     words = nltk.word_tokenize(text)
 
-    # Replace equivalent phrases
+    # fix equivalent phrases
     replaced_words = []
+    
     for word in words:
+        
         replaced = False
+        
         for key, phrases in equivalent_phrases.items():
+            
             if word in phrases:
                 replaced_words.append(key)
                 replaced = True
                 break
+        
         if not replaced:
             replaced_words.append(word)
 
-    # Replace compound phrases with a single token
+
+
+    # replace compound phrases
     text = ' '.join(replaced_words)
     text = replace_compound_phrases(text, compound_phrases)
     words = nltk.word_tokenize(text)
 
-    # Remove stopwords
+    # remove stopwords
     stop_words = set(stopwords.words('english')).union(set(custom_stopwords))
     words = [word for word in words if word not in stop_words]
 
@@ -120,12 +122,16 @@ def preprocess_text(text, compound_phrases, custom_stopwords, equivalent_phrases
 
 
 def split_words_into_rows(words, row_length):
+
     rows = []
     current_row = []
     current_length = 0
 
+    # check if length of words, count and spaces is larger than row
     for word, count in words:
         if current_length + len(word) + len(str(count)) + 2 > row_length:
+
+            # append if true and reinitiate list
             rows.append(current_row)
             current_row = []
             current_length = 0
@@ -138,30 +144,11 @@ def split_words_into_rows(words, row_length):
 
     return rows
 
-def create_visualization(words, row_length):
-    fig, ax = plt.subplots(figsize=(12, 8))
-
-    rows = split_words_into_rows(words, row_length)
-
-    y = 0
-    for row in rows:
-        x = 0
-        for word, count in row:
-            ax.text(x, y, word, fontsize=12, color='black')
-            x += len(word) * 15  # Increase the scaling factor if necessary
-            ax.text(x, y, f"({count})", fontsize=12, color='gray')
-            x += len(str(count)) * 15 + 15  # Add additional space between words
-        y -= 1.5 * 20   # Increase the scaling factor for row spacing
-
-    ax.axis('off')
-    ax.set_xlim(0, 12 * 72)
-    ax.set_ylim(-8 * 72, 0)
-    return fig
-
 
 def generate_tag_cloud_html(words):
     tag_cloud_html = "<div class='tag-cloud'>"
 
+    # create the tag cloud
     for word, count in words:
         tag_cloud_html += f"<span class='tag-word'>{word} <span class='tag-count'>({count})</span></span> "
 
@@ -177,16 +164,12 @@ def check_missing_words(input_text, word_list):
     missing_words = []
     input_words = set(input_text.lower().split())
 
+    # store words that are not present
     for word in word_list:
         if word.lower() not in input_words:
             missing_words.append(word)
 
     return missing_words
-
-
-
-
-
 
 
 
@@ -208,11 +191,11 @@ def introduction_page():
             <mark>Warning!</mark> This GitHub link may contain student identifiers.</p>
         </div>
         """, unsafe_allow_html=True)
-    
-    st.markdown("## Introduction")
-    
 
-    
+    st.markdown("## Introduction")
+
+
+
     # ref: https://discuss.streamlit.io/t/how-to-center-images-latex-header-title-etc/1946/4
     col1, col2, col3 = st.columns([1,6,1])
 
@@ -225,34 +208,31 @@ def introduction_page():
 
     with col3:
         st.write("")
-            
-            
+
+
 
     st.markdown("A job search can be very intimidating, complex, and time-consuming. There are several aspects to consider, such as goals and motivations, document preparation, and networking skills for interviews and salary negotiations. In this project, we seek to aid our readers in optimizing their search for great companies and polishing their resumes to be strong competitors in the resume-ranking software era.")
-    
+
     st.markdown("The importance of finding the right job cannot be understated. For students graduating, finding the right place to begin their careers can significantly shape the track or specialization to follow. For international students, getting a good, stable job can provide stability to meet visa sponsorship requirements. Even for experienced workers, finding the right place to work can translate into opportunities for a career change or even to get a chance to jump back into the field after a hiatus.")
-    
+
     st.markdown("First, we start by performing a literature review on what field experts recommend when engaging in a job search. Then we dive into the companies offering data science and data science-related positions from our database of Google searches. Then, we provide a few tools and visualizations on optimizing the keywords in your résumé before finally diving into conclusions and future work.")
-    
-    
-    # transitions        
+
+
+    # page transitions
+    ######################################################################      
     st.markdown("---")
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
         st.write("")   
-    
+
     with col2:
         st.write("")
-           
+
     with col3:
         if st.button(":arrow_right: The Literature"):
             st.session_state.selected_page = "The Literature"
             st.experimental_rerun()
 
-        
-        
-
-    
 
 
 
@@ -276,17 +256,18 @@ def the_literature_page():
 
 
 
-    # transitions
+    # page transitions
+    ######################################################################
     st.markdown("---")
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
         if st.button(":arrow_left: Introduction"):
             st.session_state.selected_page = "Introduction"
             st.experimental_rerun()    
-    
+
     with col2:
         st.write("")
-           
+
     with col3:
         if st.button(":arrow_right: Finding Companies"):
             st.session_state.selected_page = "Finding Companies"
@@ -300,62 +281,60 @@ def the_literature_page():
 def finding_companies_page():
 
     st.markdown("## Finding Companies")
-    
-    
+
+
     st.markdown("The natural place to begin is to find companies located in regions where you live or are willing to relocate. As an initial view, Figure 1 shows the cities in our data set where the companies are located, aggregated by state (for a detailed description of the data set, see the `The Data` section). Since our data set focused primarily on Washington, D.C. searches, this area has the most companies. However, D.C. aside, we can see California is the clear runner-up. Zooming into the plot shows that Illinois, New York, and Texas are the next contenders. Notably, states such as Utah, Denver, and Florida have few data science jobs.")
-    
-    
-    
+
+
+
     # begin folium plot
     ######################################################################
-    
-    
+
+    # remove missing rows
     location_counts = jobs_results.dropna(subset=['latitude', 'longitude'])
 
-    m = folium.Map(location=[39.8283, -98.5795], zoom_start=4)
+    # init
+    folium_plot = folium.Map(location=[39.8283, -98.5795], zoom_start=4)
 
-    marker_cluster = MarkerCluster().add_to(m)
-
+    # add marker to each location
+    folium_marker_cluster = MarkerCluster().add_to(folium_plot)
     for idx, row in location_counts.iterrows():
         folium.Marker(
             [row['latitude'], row['longitude']], 
             tooltip=row['location']
-        ).add_to(marker_cluster)
+        ).add_to(folium_marker_cluster)
 
-    folim_col1, folim_col2, folim_col3 = st.columns([1,6,1])
-    
-    with folim_col1:
+    folium_col1, folium_col2, folium_col3 = st.columns([1, 6, 1])
+
+    with folium_col1:
         st.write("")
-        
-    with folim_col2:
+
+    with folium_col2:
         st.markdown('#### Map of Job Locations Density')
-        folium_static(m)
+        folium_static(folium_plot)
         st.caption('Figure 1: ')
 
-        
-    with folim_col3:
+
+    with folium_col3:
         st.write("")
-        
-    
-    
-    
-    
+
+    # callout
     st.markdown(
         """
         <div class="bd-callout bd-callout-info">
              <p>Tip: Click on a colorized cluster in the map to expand that region.</p>
         </div>
         """, unsafe_allow_html=True)
-    
-    
+
+
     st.markdown("Next, in Table 1, we offer a job finder that can be filtered by state. The table shows the job title, company name, schedule type describing whether the job is full-time or otherwise, data science job category, and city location. Using California as an example, we can filter for the state and sort by company name. We see that Apple offers multiple jobs in this state and that the general diversity of employers is very vast. Similarly, the number of Reinforcement Learning and Natural Language Processing jobs stand out, given that these fields have increased in popularity in recent years. Potential job locations include the San Francisco Bay, San Jose, and Los Angeles.")
 
-    
-    
+
+
     # begin jobs table
     ######################################################################
-    
-    
+
+
     # get unique states
     unique_states = sorted(jobs_results['state'].unique())
 
@@ -374,6 +353,7 @@ def finding_companies_page():
         filtered_jobs_results.columns = [col.replace('_', ' ').title() for col in filtered_jobs_results.columns]
         tables[state] = filtered_jobs_results
 
+    # title
     st.markdown('#### Job Table')
 
     # state selection
@@ -384,82 +364,61 @@ def finding_companies_page():
 
     # display the dataframe as a table without row numbers (index)
     st.dataframe(df.reset_index(drop=True), use_container_width=True)
-    
-    
+
     st.caption('Table 1: ')
 
 
-
-
+    # callout
     st.markdown(
         """
         <div class="bd-callout bd-callout-info">
              <p>Tip: Click on a column header to sort the table.</p>
         </div>
         """, unsafe_allow_html=True)
-    
-    
-    
-    
+
+
     st.markdown("Lastly, to further motivate finding the right employer, in Figure 2, we can see the most common benefits in our data science job data set. Data Science is a well-compensating field at the present time. Still, it’s also very competitive, and hence finding the right company to work for will impact how many of the benefits shown below a potential candidate will have access to through their compensation package.")
 
 
 
-    
+
     # begin word cloud
     ######################################################################
-    
-    # Combine all descriptions into a single list of words
+
+    # comb all descriptions into a single list of words
     all_words = []
-    for desc in jobs_results['benefits']:
-        words = preprocess_text(desc, compound_phrases, custom_stopwords, equivalent_phrases)
+    for description in jobs_results['benefits']:
+        words = preprocess_text(description, custom_list_of_phrases, custom_list_of_stopwords, custom_list_of_equivalent_phrases)
         all_words.extend(words)
 
-    # Count word frequencies
+    # word freq count
     word_freq = Counter(all_words)
 
-    # Generate the wordcloud from the top 50 words
+    # generate wordcloud
     top_words = dict(sorted(word_freq.items(), key=lambda x: x[1], reverse=True)[:50])
-    wc = WordCloud(background_color='white', max_words=50, width=800, height=400).generate_from_frequencies(top_words)
+    
+    word_cloud_ob = WordCloud(background_color='white', max_words=50, width=800, height=400).generate_from_frequencies(top_words)
 
 
     # show
     folim_col1, folim_col2, folim_col3 = st.columns([1,6,1])
-    
+
     with folim_col1:
         st.write("")
-        
+
     with folim_col2:
         st.markdown('#### Job Benefits Text Word Cloud')
-        st.image(wc.to_array(), use_column_width=True)
+        st.image(word_cloud_ob.to_array(), use_column_width=True)
         st.caption('Figure 2: ')
 
-        
+
     with folim_col3:
         st.write("")
-        
 
-        
+
     st.markdown("After finding good companies, we now turn to getting resumes polished in the next section.")
 
-        
 
-
-
-
-
-
-        
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
     # page transitions
     ######################################################################
     st.markdown("---")
@@ -468,10 +427,10 @@ def finding_companies_page():
         if st.button(":arrow_left: The Literature"):
             st.session_state.selected_page = "The Literature"
             st.experimental_rerun()
-    
+
     with col2:
         st.write("")
-           
+
     with col3:
         if st.button(":arrow_right: Resume Keywords"):
             st.session_state.selected_page = "Resume Keywords"
@@ -479,93 +438,82 @@ def finding_companies_page():
 
 
 
+
+
+
 def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_length=70):
-    
+
     st.markdown('## Resume Keywords')
-    
-    
-    
-    st.markdown("First, it is crucial to understand that the field is very competitive and that getting the details right can make a significant difference. Figure 3 shows a network depicting the cosine similarity between the count vectorized words in the `responsibilities` column for a subset of 50 randomly selected job postings from the data set (due to computational complexity). Given that all jobs are Data Science-related, we can see a central cloud stand out as the main shape of the network. Interestingly, however, Blockchain, Natural Language Processing, and Reinforcement Learning are more likely to be on the edges of the cloud, highlighting the skill sets from these jobs that differ from traditional Machine Learning jobs. Nonetheless, most job requirements are very similar, so it’s imperative to get the right keywords into the resume to maximize the chances of passing the resume ranking software filters.")
+
+    st.markdown("First, it is crucial to understand that the field is very competitive and that getting the details right can make a significant difference. Figure 3 shows a network depicting the cosine similarity between the words in the `responsibilities` column after `CountVectorizer` processing for a subset of 50 randomly selected job postings from the data set (due to computational complexity). Nodes are colored based on `AgglomerativeClustering` from `sklearn`. Given that all jobs are Data Science-related, we can see a central cloud stand out as the main shape of the network. Interestingly, however, Blockchain, Natural Language Processing, and Reinforcement Learning are more likely to be on the edges of the cloud, highlighting the skill sets from these jobs that differ from traditional Machine Learning jobs. Nonetheless, most job requirements are very similar, so it’s imperative to get the right keywords into the resume to maximize the chances of passing the resume ranking software filters.")
 
 
-    
-    
+
+
     # begin word network
     ######################################################################
-    
 
-    # Remove empty rows and reset index
+
+    # remove empty rows
     jobs_results_responsibilities = jobs_results.dropna(subset=['responsibilities'])
     jobs_results_responsibilities.reset_index(drop=True, inplace=True)
 
 
-    # Select a random sample of 50 rows
+    # randomly sample 50
     sample_size = 50
     jobs_results_responsibilities = jobs_results_responsibilities.sample(n=sample_size, random_state=42)
     jobs_results_responsibilities.reset_index(drop=True, inplace=True)
 
 
-    # Define the stopwords to remove
+    # stopwrods
     stop_words = set(stopwords.words('english'))
 
-    # Create a CountVectorizer object
+    # run count vectorizer
     vectorizer = CountVectorizer(stop_words=stop_words)
-
-    # Count vectorize the 'description' column
     X = vectorizer.fit_transform(jobs_results_responsibilities['responsibilities'])
 
-    # Convert the sparse matrix to a dense matrix
-    X = X.toarray()
+    X = X.toarray() # sparse matrix to a dense matrix
 
-    # Calculate the cosine similarities between the job listings
-    cos_sim = cosine_similarity(X)
+    # get cosine similarities
+    cosine_similarities = cosine_similarity(X)
 
-    # Perform Agglomerative Clustering on the cosine similarity matrix
-    n_clusters = 20
+    # use sklearn agglomerative clustering for colors
+    n_clusters = 5
     cluster_model = AgglomerativeClustering(n_clusters=n_clusters, affinity='precomputed', linkage='average')
-    cluster_labels = cluster_model.fit_predict(1 - cos_sim)
+    cluster_labels = cluster_model.fit_predict(1 - cosine_similarities)
 
-    # Create a graph object
+    # init network x
     G = nx.Graph()
 
-    # Add nodes to the graph
+    # add nodes
     for i in range(len(jobs_results_responsibilities)):
         G.add_node(i, label=jobs_results_responsibilities.loc[i, 'title'], company=jobs_results_responsibilities.loc[i, 'company_name'])
 
-    # Add edges to the graph
+    # add edges
     for i in range(len(jobs_results_responsibilities)):
         for j in range(i+1, len(jobs_results_responsibilities)):
-            G.add_edge(i, j, weight=cos_sim[i][j])
+            G.add_edge(i, j, weight=cosine_similarities[i][j])
 
     # Calculate the positions of the nodes using the spring layout
     pos = nx.spring_layout(G, k=1, seed=42)
 
-    # Extract the X and Y coordinates of the nodes
+    # get x and y coords
     x_coords = [pos[i][0] for i in range(len(pos))]
     y_coords = [pos[i][1] for i in range(len(pos))]
 
-    # Create a Plotly scatter plot
+    # create plotly object
     fig = go.Figure()
 
-    # Add lines for edges
+    # add edges lines
     for edge in G.edges():
         x0, y0 = pos[edge[0]]
         x1, y1 = pos[edge[1]]
         fig.add_trace(go.Scatter(x=[x0, x1], y=[y0, y1], mode='lines', line=dict(width=1, color='gray'), showlegend=False, hoverinfo='none'))
 
-    # 
+    # add scatterplot trace
+    fig.add_trace(go.Scatter(x=x_coords, y=y_coords, mode='markers', marker=dict(size=20, color=cluster_labels, colorscale='Viridis', showscale=False), text=[f"{data['label']}<br>{data['company']}" for i, data in G.nodes(data=True)], hoverinfo='text', showlegend=False))
 
-    # Add the scatter plot trace
-    fig.add_trace(go.Scatter(x=x_coords, y=y_coords, mode='markers',
-                            marker=dict(size=20, color=cluster_labels, colorscale='Viridis', showscale=False),
-                            text=[f"{data['label']}<br>{data['company']}" for i, data in G.nodes(data=True)],
-                            hoverinfo='text', showlegend=False))
-
-
-
-
-
-    # Update the layout of the plot
+    # update layour
     fig.update_layout(
                     xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
@@ -573,26 +521,24 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
                     plot_bgcolor='rgba(0,0,0,0)',
                     margin=dict(l=0, r=0, t=30, b=0))
 
-    
+
     # show
     network_viz_col1, network_viz_col2, network_viz_col3 = st.columns([1,6,1])
-    
+
     with network_viz_col1:
         st.write("")
-        
+
     with network_viz_col2:
         st.markdown('#### Similarities in Job Responsibilities Detail')
         st.plotly_chart(fig)
         st.caption('Figure 3: ')
 
-        
+
     with network_viz_col3:
         st.write("")
-    
-    
-    
-    
-    
+
+
+    # callout
     st.markdown(
         """
         <div class="bd-callout bd-callout-info">
@@ -600,32 +546,25 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
         </div>
         """, unsafe_allow_html=True)
 
-    
-    
 
 
 
-    
     st.markdown("Next, in Figure 4 below, we can see a tag cloud showing the most frequent words in the `qualifications` columns of our data set, with a dropdown to filter for each job category. Depending on the job that interests the reader, these are essential keywords to include in a base resume. Incorporating them as a default will save a significant time when tailoring a resume for a specific job in the discipline, as many of the keywords will already have been strategically placed.")
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
     # begin tag cloud
     ######################################################################
-    
+
     st.markdown('#### Job Qualifications Text Tag Cloud')
-    # Get the category
+    
+    # get the category
     if 'selected_category' not in st.session_state:
         st.session_state.selected_category = jobs_results["category"].iloc[0]
 
     categories = sorted(jobs_results["category"].unique())
+    
     category = st.selectbox("Select a category:", categories, index=categories.index(st.session_state.selected_category), key='selected_category_widget')
     if category != st.session_state.selected_category:
         st.session_state.selected_category = category
@@ -633,73 +572,77 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
 
     st.session_state.selected_category = category
 
-    # Filter data based on the selected category
+    # filter on selected category
     filtered_data = jobs_results[jobs_results["category"] == st.session_state.selected_category]
 
-    # Process the text
+    # process words with the preprocess function
     all_words = []
     for desc in filtered_data['qualifications']:
-        words = preprocess_text(desc, compound_phrases, custom_stopwords, equivalent_phrases)
+        words = preprocess_text(desc, compound_phrases, custom_stopwords, custom_list_of_equivalent_phrases)
         all_words.extend(words)
 
-    # Count word frequencies
+    # count frequencies
     word_freq = Counter(all_words).most_common(50)
 
 
     # show
-    
     tag_cloud_html = generate_tag_cloud_html(word_freq)
     st.markdown(tag_cloud_html, unsafe_allow_html=True)
-    
     st.caption('Figure 4: ')
 
 
     st.markdown("Figure 4 shows several popular requirements for all categories, such as Python, C, and algorithms. Conversely, we can also see specialist skills such as TensorFlow and PyTorch in the Machine Learning category and Smart Contracts and Ethereum in the Blockchain category.")
-    
+
     st.markdown("Next, to assist the reader, we offer the tool below in which a resume can be provided, and it will check if the keywords as per the selected category are present. To use the tool, a user can simply paste the resume into the textbox and click the `Check Missing Keywords` button.")
 
-    
-    
+
+
 
     # begin missing words check
     ######################################################################
-    
+
     st.markdown('#### Resume Keywords Check Tool')
 
-    # Input text
-    input_text = st.text_area("Enter your resume text:")
+    # input resume 
+    input_text = st.text_area("Enter resume text:")
 
-    # Use the list of 50 words from the tag cloud
+    # use words from tag cloud
     word_list = [word for word, _ in word_freq]
 
-    # Check for missing words
+    # run the check
     if st.button("Check Missing Keywords"):
+        
+        # check if not empty
         if input_text and word_list:
             missing_words = check_missing_words(input_text, word_list)
+            
+            # display missing words
             if missing_words:
                 st.markdown(f"<p style='color: grey;'>The following words are missing from the text: {', '.join(missing_words)}</p>", unsafe_allow_html=True)
+            # if all present
             else:
                 st.markdown("<p style='color: grey;'>All words are present in the text.</p>", unsafe_allow_html=True)
+        # if no text in input
         else:
-            st.markdown("<p style='color: grey;'>Please enter the text to check.</p>", unsafe_allow_html=True)
+            st.markdown("<p style='color: grey;'>Please enter resume text.</p>", unsafe_allow_html=True)
 
-            
-    
-    
+
+
     st.markdown("Now that we have covered these critical aspects of a job search, we can move on to some concluding remarks.")
 
-    
-    # transitions
+
+    # page transitions
+    ######################################################################
     st.markdown("---")
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
         if st.button(":arrow_left: Finding Companies"):
             st.session_state.selected_page = "Finding Companies"
             st.experimental_rerun()
-    
+
     with col2:
         st.write("")
-           
+
     with col3:
         if st.button(":arrow_right: Conclusions"):
             st.session_state.selected_page = "Conclusions"
@@ -715,17 +658,18 @@ def conclusions_page():
     st.markdown("## Conclusions")
 
 
-    # transitions        
+    # page transitions
+    ######################################################################       
     st.markdown("---")
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
         if st.button(":arrow_left: Resume Keywords"):
             st.session_state.selected_page = "Resume Keywords"
             st.experimental_rerun()
-    
+
     with col2:
         st.write("")
-           
+
     with col3:
         st.write("")
 
@@ -743,6 +687,8 @@ def the_app_page():
 def references_page():
 
     st.markdown("## References")
+
+
 
 
 
@@ -765,15 +711,6 @@ with open('Code/Streamlit/custom.css') as f:
 
 
 
-# remove built in sidebar options (https://stackoverflow.com/questions/72543675/is-there-a-way-to-remove-the-side-navigation-bar-containing-file-names-in-the-la)
-#no_sidebar_style = """
-#    <style>
-#        div[data-testid="stSidebarNav"] {display: none;}
-#    </style>
-#"""
-#st.markdown(no_sidebar_style, unsafe_allow_html=True)
-
-
 
 
 ################################################
@@ -794,13 +731,13 @@ if st.sidebar.button("Introduction"):
 
 if st.sidebar.button("The Literature"):
     st.session_state.selected_page = "The Literature"
-    
+
 if st.sidebar.button("Finding Companies"):
     st.session_state.selected_page = "Finding Companies"
-        
+
 if st.sidebar.button("Resume Keywords"):
     st.session_state.selected_page = "Resume Keywords"
-    
+
 if st.sidebar.button("Conclusions"):
     st.session_state.selected_page = "Conclusions"
 
@@ -823,7 +760,7 @@ if st.sidebar.button("References"):
 # main section
 if st.session_state.selected_page == "Introduction":
     introduction_page()
-    
+
 elif st.session_state.selected_page == "The Literature":
     the_literature_page()
 
@@ -831,7 +768,7 @@ elif st.session_state.selected_page == "Finding Companies":
     finding_companies_page()
 
 elif st.session_state.selected_page == "Resume Keywords":
-    resume_keywords_page(jobs_results, compound_phrases, custom_stopwords)
+    resume_keywords_page(jobs_results, custom_list_of_phrases, custom_list_of_stopwords)
 
 elif st.session_state.selected_page == "Conclusions":
     conclusions_page()
@@ -839,10 +776,10 @@ elif st.session_state.selected_page == "Conclusions":
 # about section
 elif st.session_state.selected_page == "The Data":
     the_data_page()
-    
+
 elif st.session_state.selected_page == "The App":
     the_app_page()
-    
+
 elif st.session_state.selected_page == "References":
     references_page()
 
