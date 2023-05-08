@@ -1,6 +1,6 @@
 /* remove main container top padding */
 .block-container {
-    padding-top: 0 !important;
+    padding-top: 1rem !important;
 }
 .css-1vq4p4l {
     padding-top: 2rem !important;

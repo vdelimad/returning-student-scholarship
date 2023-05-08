@@ -190,15 +190,12 @@ def introduction_page():
     
     st.markdown("## Introduction")
 
-    
 
-def data_page():
 
-    st.markdown("## Data")
 
-def the_app_page():
+def the_literature_page():
 
-    st.markdown("## The App")
+    st.markdown("## The Literature")
 
 
 
@@ -266,13 +263,37 @@ def word_checker_page():
 
 
 
+
+
+def conclusions_page():
+
+    st.markdown("## Conclusions")
+
+
+
+
+def data_page():
+
+    st.markdown("## Data")
+
+def the_app_page():
+
+    st.markdown("## The App")
+
+
+def references_page():
+
+    st.markdown("## References")
+
+
+
 ################################################
 # streamlit setup
 ################################################
 
 
 # init streamlit
-st.set_page_config(page_title="Missing Word Checker App", layout="wide")
+st.set_page_config(page_title="The Data Science Job Search Survival Guide", layout="wide")
 button_clicked = False
 
 # init default page
@@ -300,6 +321,10 @@ with open('Code/Streamlit/custom.css') as f:
 # view management
 ################################################
 
+# selecting pages
+##################################################
+
+# main section
 st.sidebar.subheader("Main")
 if 'selected_page' not in st.session_state:
     st.session_state.selected_page = default_page
@@ -307,12 +332,19 @@ if 'selected_page' not in st.session_state:
 if st.sidebar.button("Introduction"):
     st.session_state.selected_page = "Introduction"
 
+if st.sidebar.button("The Literature"):
+    st.session_state.selected_page = "The Literature"
+    
 if st.sidebar.button("Tag Cloud"):
     st.session_state.selected_page = "Tag Cloud"
 
 if st.sidebar.button("Word Checker"):
     st.session_state.selected_page = "Word Checker"
+    
+if st.sidebar.button("Conclusions"):
+    st.session_state.selected_page = "Conclusions"
 
+# about section
 st.sidebar.subheader("About")
 if st.sidebar.button("Data"):
     st.session_state.selected_page = "Data"
@@ -320,15 +352,33 @@ if st.sidebar.button("Data"):
 if st.sidebar.button("The App"):
     st.session_state.selected_page = "The App"
 
-# Display the selected page
+if st.sidebar.button("References"):
+    st.session_state.selected_page = "References"
+
+
+# render pages
+##################################################
+
+# main section
 if st.session_state.selected_page == "Introduction":
     introduction_page()
+    
+elif st.session_state.selected_page == "The Literature":
+    the_literature_page()
+
 elif st.session_state.selected_page == "Tag Cloud":
     tag_cloud_page(jobs_results, compound_phrases, custom_stopwords)
 elif st.session_state.selected_page == "Word Checker":
     word_checker_page()
+
+elif st.session_state.selected_page == "Conclusions":
+    conclusions_page()
+
+# about section
 elif st.session_state.selected_page == "Data":
     data_page()
 elif st.session_state.selected_page == "The App":
-    about_page()
+    the_app_page()
+elif st.session_state.selected_page == "References":
+    references_page()
 
