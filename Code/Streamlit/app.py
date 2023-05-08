@@ -213,9 +213,9 @@ def introduction_page():
 
     st.markdown("A job search can be very intimidating, complex, and time-consuming. There are several aspects to consider, such as goals and motivations, document preparation, and networking skills for interviews and salary negotiations. In this project, we seek to aid our readers in optimizing their search for great companies and polishing their resumes to be strong competitors in the resume-ranking software era.")
 
-    st.markdown("The importance of finding the right job cannot be understated. For students graduating, finding the right place to begin their careers can significantly shape the track or specialization to follow. For international students, getting a good, stable job can provide stability to meet visa sponsorship requirements. Even for experienced workers, finding the right place to work can translate into opportunities for a career change or even to get a chance to jump back into the field after a hiatus.")
+    st.markdown("The importance of finding the right job cannot be understated. For students graduating, finding the right place to begin their careers can significantly shape the track or specialization to follow. For international students, getting a good job can provide stability to meet visa sponsorship requirements. Even for experienced workers, finding the right place to work can translate into opportunities for a career change or even to get a chance to jump back into the field after a hiatus.")
 
-    st.markdown("First, we start by performing a literature review on what field experts recommend when engaging in a job search. Then we dive into the companies offering data science and data science-related positions from our database of Google searches. Then, we provide a few tools and visualizations on optimizing the keywords in your résumé before finally diving into conclusions and future work.")
+    st.markdown("First, we start by performing a literature review on what field experts recommend when engaging in a job search. Then we dive into the companies offering Data Science and Data Science-related positions from our database of Google searches. Then, we provide a few tools and visualizations on optimizing the keywords in a resume before finally diving into conclusions and future work.")
 
 
     # page transitions
@@ -250,9 +250,9 @@ def the_literature_page():
 
     st.markdown("When browsing for potential employers, Dalton (2012) suggests narrowing down the surge to approximately 40 companies. This will allow each applicant to focus more on tailoring the profile to a reasonable number of options since the search space is extensive. For instance, the Small Business & Entrepreneurship Council (2023) reported 6.1 million employer firms in the U.S. as of 2019 using data from U.S. Census Bureau. In addition, there are methods such as LAMP (list, alumni, motivation, posting) which are very detailed in their approach, although just the conscious search for feasible options may suffice.")
 
-    st.markdown("For résumé building, many companies use software that ranks resumes based on their relevance to the job description. To do this, they check the résumé for particular keywords and score the résumé accordingly. Furthermore, even when the resume is not being scored by software, recruiters spend an average of six seconds on each résumé, which implies that they skim for keywords rather than perform a thorough read of the résumé (Resume Worded, 2023). These facts underscore the importance of getting the correct keywords into the resume.")
+    st.markdown("For resume building, many companies use software that ranks resumes based on their relevance to the job description. To do this, they check the resume for particular keywords and score the resume accordingly. Furthermore, even when the resume is not being scored by software, recruiters spend an average of six seconds on each resume, which implies that they skim for keywords rather than perform a thorough read of the resume (Resume Worded, 2023). These facts underscore the importance of getting the correct keywords into the resume.")
 
-    st.markdown("In this project, we build on the recommendations discussed, focusing on company search and résumé preparation to analyze a job posting data set constructed with Google searches.")
+    st.markdown("In this project, we build on the recommendations discussed, focusing on company search and resume preparation to analyze a job posting data set constructed with Google searches.")
 
 
 
@@ -357,7 +357,7 @@ def finding_companies_page():
         tables[state] = filtered_jobs_results
 
     # title
-    st.markdown('#### Job Table')
+    st.markdown('#### Data Science Jobs Table')
 
     # state selection
     state_selected = st.selectbox("Select a state:", unique_states)
@@ -380,7 +380,7 @@ def finding_companies_page():
         """, unsafe_allow_html=True)
 
 
-    st.markdown("Lastly, to further motivate finding the right employer, in Figure 2, we can see the most common benefits in our data science job data set. Data Science is a well-compensating field at the present time. Still, it’s also very competitive, and hence finding the right company to work for will impact how many of the benefits shown below a potential candidate will have access to through their compensation package.")
+    st.markdown("Lastly, to further motivate finding the right employer, in Figure 2, we can see the most common benefits in our Data Science job data set. Data Science is a well-compensating field at the present time. Still, it’s also very competitive, and hence finding the right company to work for will impact how many of the benefits shown below a potential candidate will have access to through their compensation package.")
 
 
 
@@ -419,7 +419,7 @@ def finding_companies_page():
         st.write("")
 
 
-    st.markdown("After finding good companies, we now turn to getting resumes polished in the next section.")
+    st.markdown("After finding good companies, we now turn our attention to getting resumes polished in the next section.")
 
 
     # page transitions
@@ -545,14 +545,14 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
     st.markdown(
         """
         <div class="bd-callout bd-callout-info">
-             <p>Tip: Hover over the nodes to the the job title and company</p>
+             <p>Tip: Hover over the nodes to see the job title and company</p>
         </div>
         """, unsafe_allow_html=True)
 
 
 
 
-    st.markdown("Next, in Figure 4 below, we can see a tag cloud showing the most frequent words in the `qualifications` columns of our data set, with a dropdown to filter for each job category. Depending on the job that interests the reader, these are essential keywords to include in a base resume. Incorporating them as a default will save a significant time when tailoring a resume for a specific job in the discipline, as many of the keywords will already have been strategically placed.")
+    st.markdown("Next, in Figure 4 below, we can see a tag cloud showing the most frequent words in the `qualifications` columns of our data set, with a dropdown to filter for each job category. Depending on the job that interests the reader, these are essential keywords to include in a base resume. Incorporating them as a default will save a significant amout of time when tailoring a resume for a specific job in the discipline, as many of the keywords will already have been strategically placed.")
 
 
 
@@ -597,7 +597,7 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
     st.markdown("Figure 4 shows several popular requirements for all categories, such as Python, C, and algorithms. Conversely, we can also see specialist skills such as TensorFlow and PyTorch in the Machine Learning category and Smart Contracts and Ethereum in the Blockchain category.")
 
 
-    st.markdown("Next, to assist the reader, we offer the tool below in which a resume can be provided, and it will check if the keywords as per the selected category are present. To use the tool, a user can simply paste the resume into the textbox and click the `Check Missing Keywords` button.")
+    st.markdown("Next, to assist the reader, we offer the tool below in which a resume can be provided, and it will check if the keywords as per the selected category are present. To use the tool, a user can simply paste the resume text into the textbox and click the `Check Missing Keywords` button.")
 
 
 
@@ -710,18 +710,31 @@ def conclusions_page():
 def the_data_page():
 
     st.markdown("## The Data")
+    
+    st.markdown("The data was obtained from Georgetown MS in Data Science and Analytics (2023). The data tables produced during the cleaning and preparation process are available in the [Data](https://github.com/vdelimad/returning-student-scholarship/tree/main/Data) folder in GitHub.")
+    st.markdown("#### Data Cleaning")
+    st.markdown("The raw data consisted of 85 json files with data gathered from searches for Data Science jobs of different categories for the D.C. area and the United States in general. The cleaning process consisted of parsing the json files into `Pandas` data frames, which are more easily processable with `Python` code. The cleaning exercise and EDA are available in the [DataCleaning](https://github.com/vdelimad/returning-student-scholarship/tree/main/Code/DataCleaning) folder on GitHub. A total of 591 job postings made up the data set after completing the cleaning and removing duplicates.")
+    st.markdown("#### Data Preparation")
+    st.markdown("Data preparation included using the `Nominatim` library from `Geopy` to obtain the coordinates of the cities to construct the `Folium` plot. Additional preparation included preprocessing the text data with a custom list of phrases, stop words, and equivalent phrases, as well as other typical methods for cleaning text data. The processed text was used to make the Tag Cloud and Word Cloud. Lastly, `CountVectorizer` was used to generate vectors from text that could be analyzed with cosine similarity to build the network plot.")
 
-def the_app_page():
 
-    st.markdown("## The App")
 
 
 def references_page():
 
     st.markdown("## References")
+    
+    st.markdown("Amabile T. 2014. The progress principle: using small wins to ignite joy, engagement, and creativity at work. Brilliance Audio.")
+    st.markdown("Ceniza-Levine C, Thanasoulis-Cerrachio C. 2011. Six steps to job search success. Arlington, Virginia: Saylor Foundation.")
+    st.markdown("Dalton S. 2012. The 2-hour job search: using technology to get the right job faster. 1st ed. Berkeley: Ten Speed Press.")
+    st.markdown("Georgetown MS in Data Science and Analytics. 2023. DSAN 2023 Scholarship: 2023-04-14-Data-job-search. [accessed 2023 May 2]. https://drive.google.com/drive/folders/1UYeTLu9fV2mRYOvKrNvnrH18Csu0AMkg?usp=sharing.")
+    st.markdown("Pexels. 2017. Close-up of Human Hand. [accessed 2023 May 8]. https://www.pexels.com/photo/close-up-of-human-hand-327540/.")
+    st.markdown("Resume Worded. 2023 May 8. Targeted Resume. Resume Worded. [accessed 2023 May 8]. https://resumeworded.com.")
+    st.markdown("Rothman J. 2014. Manage your job search. Arlington, MA Practical Ink.")
+    st.markdown("Small Business & Entrepreneurship Council. 2023. Facts & Data on Small Business and Entrepreneurship. [accessed 2023 May 8]. https://sbecouncil.org/about-us/facts-and-data/.")
+    st.markdown("Winkle M. 2020. A Clipboard Near Pen and Laptop On a Marble Surface. https://www.pexels.com/photo/a-clipboard-near-pen-and-laptop-on-a-marble-surface-4101343/.")
 
-
-
+  
 
 
 ################################################
@@ -779,9 +792,6 @@ st.sidebar.subheader("About")
 if st.sidebar.button("The Data"):
     st.session_state.selected_page = "The Data"
 
-if st.sidebar.button("The App"):
-    st.session_state.selected_page = "The App"
-
 if st.sidebar.button("References"):
     st.session_state.selected_page = "References"
 
@@ -808,9 +818,6 @@ elif st.session_state.selected_page == "Conclusions":
 # about section
 elif st.session_state.selected_page == "The Data":
     the_data_page()
-
-elif st.session_state.selected_page == "The App":
-    the_app_page()
 
 elif st.session_state.selected_page == "References":
     references_page()
