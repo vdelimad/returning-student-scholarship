@@ -4,19 +4,27 @@
 
 
 import streamlit as st
+
 import pandas as pd
 import nltk
 from nltk.corpus import stopwords
 from collections import Counter
 import re
 import matplotlib.pyplot as plt
+from PIL import Image
+import folium
+from folium.plugins import MarkerCluster
+from streamlit_folium import folium_static
+
 
 ################################################
 # data
 ################################################
 
 jobs_results = pd.read_csv("Data/jobs_results_with_coords.csv")
-
+# clean the state column
+jobs_results['state'] = jobs_results['location'].apply(lambda x: x.split(', ')[-1]) # put in a separate column
+jobs_results['state'] = jobs_results['state'].apply(lambda x: x.split('(')[0].strip()) # remove the parenthesis and trim the whitespace
 
 
 ################################################
@@ -61,7 +69,7 @@ def preprocess_text(text, compound_phrases, custom_stopwords, equivalent_phrases
     # Convert to string and remove leading/trailing white space
     text = str(text).strip()
 
-    # Replace 'smart contract' and 'smart contracts' with 'smart_contract'
+    # fix smart contracts
     text = re.sub(r'\bsmart contracts?\b', 'smart_contract', text, flags=re.IGNORECASE)
 
     # Remove special characters and digits
@@ -183,25 +191,208 @@ def introduction_page():
     st.markdown(
         """
         <div class="bd-callout bd-callout-info">
-             <p>All code used in this project is publicly available on <a href="https://www.freecodecamp.org/" target="_blank">GitHub</a>. <br>
+             <p>All code used in this project is publicly available on <a href="https://github.com/vdelimad/returning-student-scholarship" target="_blank">GitHub</a>. <br>
             <mark>Warning!</mark> This GitHub link may contain student identifiers.</p>
         </div>
         """, unsafe_allow_html=True)
     
     st.markdown("## Introduction")
 
+    
+    # ref: https://discuss.streamlit.io/t/how-to-center-images-latex-header-title-etc/1946/4
+    col1, col2, col3 = st.columns([1,6,1])
+
+    with col1:
+        st.write("")
+
+    with col2:
+        image = Image.open('Code/Streamlit/Images/pexels-anna-tarazevich-5598295.jpg')
+        st.image(image, caption='Photo credit: Tarazevich (2020)', width=600)
+
+    with col3:
+        st.write("")
+            
+            
+    # transitions        
+    col1, col2, col3 = st.columns([1,1,1])
+    with col1:
+        st.write("")   
+    
+    with col2:
+        st.write("")
+           
+    with col3:
+        if st.button(":arrow_right: The Literature"):
+            st.session_state.selected_page = "The Literature"
+            st.experimental_rerun()
+
+        
+        
+
+    
 
 
 
 def the_literature_page():
 
     st.markdown("## The Literature")
+    
+    st.markdown("Before considering the specific actions to take when performing a job search, getting into the right mindset is essential. Rothman (2014) compares the job search process with managing a project. As your own project manager, it is crucial to strategize and think about what is the most efficient use of time. For instance, Rothman emphasizes the importance of collecting notes about the process to better understand your working style and rhythm. Not only does this serve as a source of personal feedback, but also, a significant amount of research shows that keeping track of your accomplishments will support your motivation and self-esteem (Amabile 2014).")
+
+    st.markdown("It is also essential to focus on one action at a time. A job search can be daunting and very time-consuming; deciding how much work to focus on every week can be the key to success. For example, techniques such as developing a personal Kanban board and keeping tasks within one-week time boxes can also be very effective organizational methods and help avoid multitasking.")
+
+    st.markdown("Once the organizational style is planned, we can consider the elements needed for the job search. Ceniza-Levine and Thanasoulis-Cerrachio (2011) discuss the importance of evaluating your specific life situation before defining a strategy since these factors will significantly influence the job search preparation required for success. For example, a student looking for an internship and a student about to graduate have very different goals. Graduating students may prioritize financial self-sufficiency, while ongoing students may instead focus on acquiring valuable experience. Similarly, experienced candidates may want to change industries or return to the workforce after a hiatus. These considerations come with their own deadlines, access to resources, and emotional constraints.")
+
+    st.markdown("Once these considerations are considered, Ceniza-Levine and Thanasoulis-Cerrachio suggest breaking down the process into six sequential steps. Step one is all about making up your mind on which career track you wish to pursue. Steps two and three involve preparing documents and performing research to guide and support the application process. Finally, steps four to six involve the process of networking, interviewing, and moving forward all the way until closing an offer. In this project, we assume our readers have already chosen to pursue a subfield within data science and focus on helping them with steps two and three: finding companies and preparing a resume, which we discuss next.")
+
+    st.markdown("When browsing for potential employers, Dalton (2012) suggests narrowing down the surge to approximately 40 companies. This will allow each applicant to focus more on tailoring the profile to a reasonable number of options since the search space is extensive. For instance, the Small Business & Entrepreneurship Council (2023) reported 6.1 million employer firms in the U.S. as of 2019 using data from U.S. Census Bureau. In addition, there are methods such as LAMP (list, alumni, motivation, posting) which are very detailed in their approach, although just the conscious search for feasible options may suffice.")
+
+    st.markdown("For résumé building, many companies use software that ranks resumes based on their relevance to the job description. To do this, they check the résumé for particular keywords and score the résumé accordingly. Furthermore, even when the resume is not being scored by software, recruiters spend an average of six seconds on each résumé, which implies that they skim for keywords rather than perform a thorough read of the résumé (Resume Worded, 2023). These facts underscore the importance of getting the correct keywords into the resume.")
+
+    st.markdown("In this project, we build on the recommendations discussed, focusing on company search and résumé preparation to analyze a job posting data set constructed with Google searches.")
+
+
+
+    # transitions
+    st.markdown("---")
+    col1, col2, col3 = st.columns([1,1,1])
+    with col1:
+        if st.button(":arrow_left: Introduction"):
+            st.session_state.selected_page = "Introduction"
+            st.experimental_rerun()    
+    
+    with col2:
+        st.write("")
+           
+    with col3:
+        if st.button(":arrow_right: Finding Companies"):
+            st.session_state.selected_page = "Finding Companies"
+            st.experimental_rerun()
+
+
+import streamlit.components.v1 as stc
+
+def render_html(filepath):
+    with open(filepath, 'r') as f:
+        html = f.read()
+    stc.iframe(html, width=700, height=500)
+
+
+
+def finding_companies_page():
+
+    st.markdown("## Finding Companies")
+    
+    location_counts = jobs_results.dropna(subset=['latitude', 'longitude'])
+    
+    
+
+
+    m = folium.Map(location=[location_counts['latitude'].mean(), location_counts['longitude'].mean()], zoom_start=4)
+
+    marker_cluster = MarkerCluster().add_to(m)
+
+    for idx, row in location_counts.iterrows():
+        folium.Marker(
+            [row['latitude'], row['longitude']], 
+            tooltip=row['location']
+        ).add_to(marker_cluster)
+
+    folim_col1, folim_col2, folim_col3 = st.columns([1,6,1])
+    
+    with folim_col1:
+        st.write("")
+        
+    with folim_col2:
+        folium_static(m)
+        
+    with folim_col3:
+        st.write("")
+    
+    
+    
+    
+    st.markdown(
+        """
+        <div class="bd-callout bd-callout-info">
+             <p>Tip: Click on a colorized cluster in the map to expand that region.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    
+    
+    
+
+    # get unique states
+    unique_states = sorted(jobs_results['state'].unique())
+
+    # move 'Anywhere' first
+    if 'Anywhere' in unique_states:
+        unique_states.remove('Anywhere')
+        unique_states.insert(0, 'Anywhere')
+
+    # create a table for each state
+    tables = {}
+    for state in unique_states:
+        filtered_jobs_results = jobs_results[jobs_results['state'] == state]
+        filtered_jobs_results = filtered_jobs_results[['title', 'company_name', 'schedule_type', 'category', 'location']]
+        
+        # capitalize headers and replace underscores with spaces
+        filtered_jobs_results.columns = [col.replace('_', ' ').title() for col in filtered_jobs_results.columns]
+        tables[state] = filtered_jobs_results
+
+    # Streamlit app
+    st.title("Job finder")
+
+    # state selection
+    state_selected = st.selectbox("Select a state:", unique_states)
+
+    # get the dataframe for the selected state
+    df = tables[state_selected]
+
+    # display the dataframe as a table without row numbers (index)
+    st.dataframe(df.reset_index(drop=True), use_container_width=True)
+
+
+
+    st.markdown(
+        """
+        <div class="bd-callout bd-callout-info">
+             <p>Tip: Click on a column header to sort the table.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
 
 
 
-def tag_cloud_page(jobs_results, compound_phrases, custom_stopwords, row_length=70):
-    st.title('Tag Cloud Visualization')
+    
+    
+    
+    
+    
+    
+    
+    # transitions
+    st.markdown("---")
+    col1, col2, col3 = st.columns([1,1,1])
+    with col1:
+        if st.button(":arrow_left: The Literature"):
+            st.session_state.selected_page = "The Literature"
+            st.experimental_rerun()
+    
+    with col2:
+        st.write("")
+           
+    with col3:
+        if st.button(":arrow_right: Resume Keywords"):
+            st.session_state.selected_page = "Resume Keywords"
+            st.experimental_rerun()
+
+
+
+def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_length=70):
+    
+    st.markdown('## Resume Keywords')
 
     # Get the category
     if 'selected_category' not in st.session_state:
@@ -235,13 +426,7 @@ def tag_cloud_page(jobs_results, compound_phrases, custom_stopwords, row_length=
 
 
 
-
-
-
-
-
-def word_checker_page():
-    st.title("Missing Word Checker")
+    st.markdown("### Check your resume")
 
     # Input text
     input_text = st.text_area("Enter your large amount of text:")
@@ -260,6 +445,24 @@ def word_checker_page():
                 st.write("All words are present in the text.")
         else:
             st.write("Please enter both the text and the list of words to check.")
+            
+    
+    # transitions
+    st.markdown("---")
+    col1, col2, col3 = st.columns([1,1,1])
+    with col1:
+        if st.button(":arrow_left: Finding Companies"):
+            st.session_state.selected_page = "Finding Companies"
+            st.experimental_rerun()
+    
+    with col2:
+        st.write("")
+           
+    with col3:
+        if st.button(":arrow_right: Conclusions"):
+            st.session_state.selected_page = "Conclusions"
+            st.experimental_rerun()
+
 
 
 
@@ -269,6 +472,20 @@ def conclusions_page():
 
     st.markdown("## Conclusions")
 
+
+    # transitions        
+    st.markdown("---")
+    col1, col2, col3 = st.columns([1,1,1])
+    with col1:
+        if st.button(":arrow_left: Resume Keywords"):
+            st.session_state.selected_page = "Resume Keywords"
+            st.experimental_rerun()
+    
+    with col2:
+        st.write("")
+           
+    with col3:
+        st.write("")
 
 
 
@@ -335,11 +552,11 @@ if st.sidebar.button("Introduction"):
 if st.sidebar.button("The Literature"):
     st.session_state.selected_page = "The Literature"
     
-if st.sidebar.button("Tag Cloud"):
-    st.session_state.selected_page = "Tag Cloud"
-
-if st.sidebar.button("Word Checker"):
-    st.session_state.selected_page = "Word Checker"
+if st.sidebar.button("Finding Companies"):
+    st.session_state.selected_page = "Finding Companies"
+        
+if st.sidebar.button("Resume Keywords"):
+    st.session_state.selected_page = "Resume Keywords"
     
 if st.sidebar.button("Conclusions"):
     st.session_state.selected_page = "Conclusions"
@@ -366,10 +583,11 @@ if st.session_state.selected_page == "Introduction":
 elif st.session_state.selected_page == "The Literature":
     the_literature_page()
 
-elif st.session_state.selected_page == "Tag Cloud":
-    tag_cloud_page(jobs_results, compound_phrases, custom_stopwords)
-elif st.session_state.selected_page == "Word Checker":
-    word_checker_page()
+elif st.session_state.selected_page == "Finding Companies":
+    finding_companies_page()
+
+elif st.session_state.selected_page == "Resume Keywords":
+    resume_keywords_page(jobs_results, compound_phrases, custom_stopwords)
 
 elif st.session_state.selected_page == "Conclusions":
     conclusions_page()
