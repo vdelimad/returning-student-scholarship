@@ -1,3 +1,9 @@
 nltk
 streamlit
 matplotlib
+folium
+streamlit_folium
+sklearn
+networkx
+plotly
+wordcloud
