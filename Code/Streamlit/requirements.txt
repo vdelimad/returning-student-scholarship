@@ -320,10 +320,6 @@ swig=4.1.1=pypi_0
 tabulate=0.9.0=pypi_0
 tbb=2021.8.0=h48ca7d4_0
 tenacity=8.0.1=py310hca03da5_1
-tensorboard=2.10.1=pyhd8ed1ab_0
-tensorboard-data-server=0.6.1=py310h4fe9c50_4
-tensorboard-plugin-wit=1.8.1=pyhd8ed1ab_0
-tensorboardx=2.6=pypi_0
 termcolor=2.2.0=pyhd8ed1ab_0
 terminado=0.17.1=py310hca03da5_0
 threadpoolctl=2.2.0=pyh0d69192_0
@@ -333,8 +329,6 @@ tk=8.6.12=hb8d0fd4_0
 toml=0.10.2=pyhd3eb1b0_0
 tomli=2.0.1=py310hca03da5_0
 toolz=0.12.0=py310hca03da5_0
-torchaudio=0.13.1=py310_cpu
-torchvision=0.14.1=py310_cpu
 tornado=6.2=py310h1a28f6b_0
 traitlets=5.7.1=py310hca03da5_0
 traittypes=0.2.1=pypi_0
