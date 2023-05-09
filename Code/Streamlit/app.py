@@ -5,7 +5,7 @@
 import streamlit as st
 import pandas as pd
 import nltk
-nltk.download()
+#nltk.download()
 nltk.download('wordnet')
 nltk.download('stopwords')
 #nltk.download('punkt')
