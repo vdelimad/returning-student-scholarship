@@ -25,6 +25,7 @@ import plotly.graph_objects as go
 from sklearn.cluster import AgglomerativeClustering
 import streamlit.components.v1 as stc
 from wordcloud import WordCloud
+import streamlit.components.v1 as components
 
 
 
@@ -65,6 +66,26 @@ custom_list_of_equivalent_phrases = {
 ################################################
 # helper functions
 ################################################
+
+
+# function based on https://discuss.streamlit.io/t/no-way-to-set-focus-at-top-of-screen-on-page-reload-really/15474/14
+def scroll_to_top_with_counter():
+    if "counter" not in st.session_state:
+        st.session_state.counter = 1
+
+    st.session_state.counter += 1
+
+    components.html(
+        f"""
+            <p>{st.session_state.counter}</p>
+            <script>
+                window.parent.document.querySelector('section.main').scrollTo(0, 0);
+            </script>
+        """,
+        height=0
+    )
+
+
 
 # tag cloud functions
 def replace_compound_phrases(text, phrases):
@@ -186,7 +207,12 @@ def check_missing_words(input_text, word_list):
 
 
 def introduction_page():
+    
+
     st.markdown("# The Data Science Job Search Survival Guide")
+    
+    scroll_to_top_with_counter()
+    
     st.markdown("## Discovering Great Companies and Polishing Your Resume")
     st.markdown("PUBLISHED: May 8, 2023")
     st.markdown(
@@ -243,7 +269,10 @@ def introduction_page():
 
 def the_literature_page():
 
+
     st.markdown("## The Literature")
+    
+    scroll_to_top_with_counter()
     
     st.markdown("Before considering the specific actions to take when performing a job search, getting into the right mindset is essential. Rothman (2014) compares the job search process with managing a project. As your own project manager, it is crucial to strategize and think about what is the most efficient use of time. For instance, Rothman emphasizes the importance of collecting notes about the process to better understand your working style and rhythm. Not only does this serve as a source of personal feedback, but also, a significant amount of research shows that keeping track of your accomplishments will support your motivation and self-esteem (Amabile 2014).")
 
@@ -285,7 +314,11 @@ def the_literature_page():
 
 def finding_companies_page():
 
+    
+
     st.markdown("## Finding Companies")
+    
+    scroll_to_top_with_counter()
 
 
     st.markdown("The natural place to begin is to find companies located in regions where you live or are willing to relocate. As an initial view, Figure 1 shows the cities in our data set where the companies are located, aggregated by state (for a detailed description of the data set, see the `The Data` section). Since our data set focused primarily on Washington, D.C. searches, this area has the most companies. However, D.C. aside, we can see California is the clear runner-up. Zooming into the plot shows that Illinois, New York, and Texas are the next contenders. Notably, states such as Utah, Denver, and Florida have few data science jobs.")
@@ -452,6 +485,8 @@ def finding_companies_page():
 def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_length=70):
 
     st.markdown('## Resume Keywords')
+    
+    scroll_to_top_with_counter()
 
     st.markdown("First, it is crucial to understand that the field is very competitive and that getting the details right can make a significant difference. Figure 3 shows a network depicting the cosine similarity between the words in the `responsibilities` column after `CountVectorizer` processing for a subset of 50 randomly selected job postings from the data set (due to computational complexity). Nodes are colored based on `AgglomerativeClustering` from `sklearn`. Given that all jobs are Data Science-related, we can see a central cloud stand out as the main shape of the network. Interestingly, however, Blockchain, Natural Language Processing, and Reinforcement Learning are more likely to be on the edges of the cloud, highlighting the skill sets from these jobs that differ from traditional Machine Learning jobs. Nonetheless, most job requirements are very similar, so it’s imperative to get the right keywords into the resume to maximize the chances of passing the resume ranking software filters.")
 
@@ -673,6 +708,8 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
 def conclusions_page():
 
     st.markdown("## Conclusions")
+    
+    scroll_to_top_with_counter()
 
     st.markdown("In this project, we began by motivating the importance of being selective about which companies to apply to and getting a resume that stands out, particularly for resume ranking software. Then, we discussed the literature, covering the importance of having clear goals before beginning the application process, maintaining a manageable workload, and keeping track of successes. We also discussed the six steps for the job search process and motivated focusing on company search resume polishing (steps two and three). Next, we presented several visualizations and tools using our data set to evaluate companies, including their location and common benefits offered to Data Science applicants. Lastly, we covered why having a resume that stands out, and we visualized the most important keywords for each Data Science job category is essential. Finally, we concluded by offering a tool for comparing the common keywords against a resume.")
     
@@ -716,6 +753,8 @@ def the_data_page():
 
     st.markdown("## The Data")
     
+    scroll_to_top_with_counter()
+    
     st.markdown("The data was obtained from Georgetown MS in Data Science and Analytics (2023). The data tables produced during the cleaning and preparation process are available in the [Data](https://github.com/vdelimad/returning-student-scholarship/tree/main/Data) folder in GitHub.")
     st.markdown("#### Data Cleaning")
     st.markdown("The raw data consisted of 85 json files with data gathered from searches for Data Science jobs of different categories for the D.C. area and the United States in general. The cleaning process consisted of parsing the json files into `Pandas` data frames, which are more easily processable with `Python` code. The cleaning exercise and EDA are available in the [DataCleaning](https://github.com/vdelimad/returning-student-scholarship/tree/main/Code/DataCleaning) folder on GitHub. A total of 591 job postings made up the data set after completing the cleaning and removing duplicates.")
@@ -728,6 +767,8 @@ def the_data_page():
 def references_page():
 
     st.markdown("## References")
+    
+    scroll_to_top_with_counter()
     
     st.markdown("Amabile T. 2014. The progress principle: using small wins to ignite joy, engagement, and creativity at work. Brilliance Audio.")
     st.markdown("Ceniza-Levine C, Thanasoulis-Cerrachio C. 2011. Six steps to job search success. Arlington, Virginia: Saylor Foundation.")
