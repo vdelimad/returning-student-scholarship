@@ -8,6 +8,8 @@ import nltk
 nltk.download()
 nltk.download('wordnet')
 nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('popular')
 from nltk.corpus import stopwords
 from collections import Counter
 import re
