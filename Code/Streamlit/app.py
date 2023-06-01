@@ -214,12 +214,15 @@ def introduction_page():
     scroll_to_top_with_counter()
     
     st.markdown("## Discovering Great Companies and Polishing Your Resume")
+    st.markdown("AUTHOR: Victor De Lima")
     st.markdown("PUBLISHED: May 8, 2023")
     st.markdown(
         """
         <div class="bd-callout bd-callout-info">
-             <p>All code used in this project is publicly available on <a href="https://github.com/vdelimad/returning-student-scholarship" target="_blank">GitHub</a>. <br>
-            <mark>Warning!</mark> This GitHub link may contain student identifiers.</p>
+        <ul>
+            <li>All code used in this project is publicly available on <a href="https://github.com/vdelimad/returning-student-scholarship" target="_blank">GitHub</a>.</li>
+            <li>To explore more of my work, please visit my <a href="https://victordelima.com/" target="_blank">website</a>.</li>
+        </ul>
         </div>
         """, unsafe_allow_html=True)
 
