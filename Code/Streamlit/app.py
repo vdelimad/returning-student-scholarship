@@ -210,9 +210,7 @@ def introduction_page():
     
 
     st.markdown("# The Data Science Job Search Survival Guide")
-    
     scroll_to_top_with_counter()
-    
     st.markdown("## Discovering Great Companies and Polishing Your Resume")
     st.markdown("AUTHOR: Victor De Lima")
     st.markdown("PUBLISHED: May 8, 2023")
