@@ -208,7 +208,7 @@ def check_missing_words(input_text, word_list):
 
 def introduction_page():
     
-    scroll_to_top_with_counter()
+    
     st.markdown("# The Data Science Job Search Survival Guide")
     st.markdown("## Discovering Great Companies and Polishing Your Resume")
     st.markdown("AUTHOR: Victor De Lima")
@@ -263,6 +263,8 @@ def introduction_page():
         if st.button(":arrow_right: The Literature"):
             st.session_state.selected_page = "The Literature"
             st.experimental_rerun()
+    
+    scroll_to_top_with_counter()
 
 
 
