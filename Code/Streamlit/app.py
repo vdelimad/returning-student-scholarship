@@ -208,9 +208,8 @@ def check_missing_words(input_text, word_list):
 
 def introduction_page():
     
-
-    st.markdown("# The Data Science Job Search Survival Guide")
     scroll_to_top_with_counter()
+    st.markdown("# The Data Science Job Search Survival Guide")
     st.markdown("## Discovering Great Companies and Polishing Your Resume")
     st.markdown("AUTHOR: Victor De Lima")
     st.markdown("PUBLISHED: May 8, 2023")
