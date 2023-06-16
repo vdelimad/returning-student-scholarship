@@ -349,17 +349,17 @@ def finding_companies_page():
 
     folium_col1, folium_col2, folium_col3 = st.columns([1, 6, 1])
 
-    with folium_col1:
-        st.write("")
+    #with folium_col1:
+    #    st.write("")
 
-    with folium_col2:
-        st.markdown('#### Map of Job Locations Density')
-        folium_static(folium_plot)
-        st.caption('Figure 1: Folium plot showing the density of database jobs in each city, initially aggregated by state.')
+    #with folium_col2:
+    st.markdown('#### Map of Job Locations Density')
+    folium_static(folium_plot)
+    st.caption('Figure 1: Folium plot showing the density of database jobs in each city, initially aggregated by state.')
 
 
-    with folium_col3:
-        st.write("")
+    #with folium_col3:
+    #    st.write("")
 
     # callout
     st.markdown(
@@ -490,7 +490,7 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
     
     scroll_to_top_with_counter()
 
-    st.markdown("First, it is crucial to understand that the field is very competitive and that getting the details right can make a significant difference. Figure 3 shows a network depicting the cosine similarity between the words in the `responsibilities` column after `CountVectorizer` processing for a subset of 50 randomly selected job postings from the data set (due to computational complexity). Nodes are colored based on `AgglomerativeClustering` from `sklearn`. Given that all jobs are Data Science-related, we can see a central cloud stand out as the main shape of the network. Interestingly, however, Blockchain, Natural Language Processing, and Reinforcement Learning are more likely to be on the edges of the cloud, highlighting the skill sets from these jobs that differ from traditional Machine Learning jobs. Nonetheless, most job requirements are very similar, so it’s imperative to get the right keywords into the resume to maximize the chances of passing the resume ranking software filters.")
+    st.markdown("First, it is crucial to understand that the field is very competitive and that getting the details right can make a significant difference. Figure 3 shows a network with nodes depicting 20 randomly selected job postings from the data set. Each edge represents the cosine similarity between the words in the job `responsibilities` column after `CountVectorizer` processing. Additionally, the nodes are colored based on `AgglomerativeClustering` from `sklearn`. Interestingly, jobs in the same cluster are not necessarily strongly linked to each other by cosine similarity. This observation highlights that there are important nuances within each job, regardless of being in the same industry or even the same cluster. More than that, it argues against a single resume approach to job applications. It favors tailoring the resume to the particular job posting of interest so it contains the right keywords and maximizes the chances of passing the resume ranking software filters.")
 
 
 
@@ -504,8 +504,8 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
     jobs_results_responsibilities.reset_index(drop=True, inplace=True)
 
 
-    # randomly sample 50
-    sample_size = 50
+    # randomly sample 20
+    sample_size = 20
     jobs_results_responsibilities = jobs_results_responsibilities.sample(n=sample_size, random_state=42)
     jobs_results_responsibilities.reset_index(drop=True, inplace=True)
 
@@ -535,12 +535,24 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
         G.add_node(i, label=jobs_results_responsibilities.loc[i, 'title'], company=jobs_results_responsibilities.loc[i, 'company_name'])
 
     # add edges
+    #for i in range(len(jobs_results_responsibilities)):
+    #    for j in range(i+1, len(jobs_results_responsibilities)):
+    #        G.add_edge(i, j, weight=cosine_similarities[i][j])
+    
+    # add edge info
+    edges = []
     for i in range(len(jobs_results_responsibilities)):
         for j in range(i+1, len(jobs_results_responsibilities)):
-            G.add_edge(i, j, weight=cosine_similarities[i][j])
+            edge = {
+                'source': i,
+                'target': j,
+                'weight': cosine_similarities[i][j]
+            }
+            edges.append(edge)
+
 
     # Calculate the positions of the nodes using the spring layout
-    pos = nx.spring_layout(G, k=1, seed=42)
+    pos = nx.spring_layout(G, k=5, seed=42)
 
     # get x and y coords
     x_coords = [pos[i][0] for i in range(len(pos))]
@@ -550,10 +562,18 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
     fig = go.Figure()
 
     # add edges lines
-    for edge in G.edges():
-        x0, y0 = pos[edge[0]]
-        x1, y1 = pos[edge[1]]
-        fig.add_trace(go.Scatter(x=[x0, x1], y=[y0, y1], mode='lines', line=dict(width=1, color='gray'), showlegend=False, hoverinfo='none'))
+    for edge in edges:
+        x0, y0 = pos[edge['source']]
+        x1, y1 = pos[edge['target']]
+        edge_weight = edge['weight']
+        fig.add_trace(go.Scatter(
+            x=[x0, x1],
+            y=[y0, y1],
+            mode='lines',
+            line=dict(width=edge_weight * 5, color='gray'),  # Use 'edge_weight' as the thickness of the edges
+            showlegend=False,
+            hoverinfo='none'
+        ))
 
     # add scatterplot trace
     fig.add_trace(go.Scatter(x=x_coords, y=y_coords, mode='markers', marker=dict(size=20, color=cluster_labels, colorscale='RdGy', showscale=False), text=[f"{data['label']}<br>{data['company']}" for i, data in G.nodes(data=True)], hoverinfo='text', showlegend=False))
@@ -570,17 +590,17 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
     # show
     network_viz_col1, network_viz_col2, network_viz_col3 = st.columns([1,6,1])
 
-    with network_viz_col1:
-        st.write("")
+    #with network_viz_col1:
+    #    st.write("")
 
-    with network_viz_col2:
-        st.markdown('#### Similarities in Job Responsibilities Detail')
-        st.plotly_chart(fig)
-        st.caption('Figure 3: Graph of 50 randomly selected jobs related by the similarity of their responsibility description, colored by Agglomerative Clustering.')
+    #with network_viz_col2:
+    st.markdown('#### Similarities in Job Responsibilities Detail')
+    st.plotly_chart(fig)
+    st.caption('Figure 3: Graph of 20 randomly selected jobs related by the similarity of their responsibility description, colored by Agglomerative Clustering.')
 
 
-    with network_viz_col3:
-        st.write("")
+    #with network_viz_col3:
+    #    st.write("")
 
 
     # callout
@@ -727,7 +747,7 @@ def conclusions_page():
 
     with col2:
         image = Image.open('Code/Streamlit/Images/pexels-pixabay-327540.jpg')
-        st.image(image, caption='Photo credit: Pexels (2017)', width=600)
+        st.image(image, caption='Photo credit: Pexels (2017)', width=450)
 
     with col3:
         st.write("")
