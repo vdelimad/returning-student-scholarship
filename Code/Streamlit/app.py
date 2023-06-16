@@ -791,7 +791,7 @@ def references_page():
 
 
 # init streamlit
-st.set_page_config(page_title="The Data Science Job Search Survival Guide", layout="wide", page_icon = 'Code/Streamlit/Images/handshake.png')
+st.set_page_config(page_title="The Data Science Job Search Survival Guide", page_icon = 'Code/Streamlit/Images/handshake.png')
 button_clicked = False
 
 # init default page
