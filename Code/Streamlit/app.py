@@ -235,7 +235,7 @@ def introduction_page():
 
     with col2:
         image = Image.open('Code/Streamlit/Images/pexels-markus-winkler-4101343.jpg')
-        st.image(image, caption='Photo credit: Winkle (2020)', width=600)
+        st.image(image, caption='Photo credit: Winkle (2020)', width=500)
 
     with col3:
         st.write("")
@@ -320,7 +320,9 @@ def finding_companies_page():
 
     st.markdown("## Finding Companies")
     
-    scroll_to_top_with_counter()
+    if "finding_companies_loaded" not in st.session_state:
+        scroll_to_top_with_counter()
+        st.session_state.finding_companies_loaded = True
 
 
     st.markdown("The natural place to begin is to find companies located in regions where you live or are willing to relocate. As an initial view, Figure 1 shows the cities in our data set where the companies are located, aggregated by state (for a detailed description of the data set, see the `The Data` section). Since our data set focused primarily on Washington, D.C. searches, this area has the most companies. However, D.C. aside, we can see California is the clear runner-up. Zooming into the plot shows that Illinois, New York, and Texas are the next contenders. Notably, states such as Utah, Denver, and Florida have few data science jobs.")
@@ -488,7 +490,11 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
 
     st.markdown('## Resume Keywords')
     
-    scroll_to_top_with_counter()
+    if "resume_keywords_loaded" not in st.session_state:
+        scroll_to_top_with_counter()
+        st.session_state.resume_keywords_loaded = True
+    
+
 
     st.markdown("First, it is crucial to understand that the field is very competitive and that getting the details right can make a significant difference. Figure 3 shows a network with nodes depicting 20 randomly selected job postings from the data set. Each edge represents the cosine similarity between the words in the job `responsibilities` column after `CountVectorizer` processing. Additionally, the nodes are colored based on `AgglomerativeClustering` from `sklearn`. Interestingly, jobs in the same cluster are not necessarily strongly linked to each other by cosine similarity. This observation highlights that there are important nuances within each job, regardless of being in the same industry or even the same cluster. More than that, it argues against a single resume approach to job applications. It favors tailoring the resume to the particular job posting of interest so it contains the right keywords and maximizes the chances of passing the resume ranking software filters.")
 
