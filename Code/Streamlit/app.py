@@ -523,7 +523,7 @@ def resume_keywords_page(jobs_results, compound_phrases, custom_stopwords, row_l
     cosine_similarities = cosine_similarity(X)
 
     # use sklearn agglomerative clustering for colors
-    n_clusters = 5
+    n_clusters = 4
     cluster_model = AgglomerativeClustering(n_clusters=n_clusters, affinity='precomputed', linkage='average')
     cluster_labels = cluster_model.fit_predict(1 - cosine_similarities)
 
